@@ -4,10 +4,13 @@ if [ $# -ne 1 ]; then
         echo "Enter directory";
     	exit 0;
 fi
-
+# delete .~lock older then 1 day
+find $1 -name ".~lock*" -atime +1 -delete
+# dump acls
 cd $1
 >acl
 echo "#!/bin/bash">recovery_acl.sh
+#echo '#Before start recovery make: sed -i "s,\\\ ,\ ,g"'>>recovery_acl.sh
 echo "cd $1">>recovery_acl.sh
 f='./'
 # create acl file sorted by dir_level
@@ -19,9 +22,8 @@ sed -i 's/default\:group/\-dm\ g/g' acl
 sed -i 's/user\:/\-m\ u\:/g' acl
 sed -i 's/group\:/\-m\ g\:/g' acl
 sed -i 's/\#\ file\:\ /\.\//g' acl
-sed -i 's,\\,\\\\,g' acl
-sed -i "/^#/d" acl
- 
+sed -i '/^#/d' acl
+
 while IFS='' read -r line ; do
   # grep dir name
   if echo "$line" | grep -q "$f" ; then
@@ -35,5 +37,11 @@ while IFS='' read -r line ; do
   fi
 done < "acl"
 rm -f acl
-sed -i "s/\\\134/\\\\\\\134/g" recovery_acl.sh
-sed -i "s/\\\040/\\\\ /g" recovery_acl.sh
+sed -i 's/134/\\/g' recovery_acl.sh
+sed -i 's/040/\ /g' recovery_acl.sh
+# for acl rules
+chown -R root.root $1
+# nfs shares need "other"
+find $1 -type d -exec chmod 770 {} +
+find $1 -type f -exec chmod 770 {} +
+
