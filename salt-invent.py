@@ -73,7 +73,7 @@ def update_inv(inv):
     cursor = conn.cursor()
     for item in inv.items():
         print(item[0], item[1])
-    cursor.execute("insert into Artist values (Null, 'A Aagrh!') ")
+        cursor.execute("INSERT INTO inventory VALUES (:key, :item)", {"key": item[0], "item": item[1]})
     conn.commit()
     
     conn.close()
