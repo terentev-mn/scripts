@@ -3,6 +3,7 @@
 import mysql.connector
 import json
 from mysql.connector import Error
+import sqlite3
 
 
 def connect():
@@ -14,26 +15,74 @@ def connect():
                                        password='salt')
         if conn.is_connected():
             cursor = conn.cursor()
-            cursor.execute("SELECT full_ret FROM salt_returns WHERE fun='grains.items'")
+            cursor.execute("""SELECT full_ret FROM salt_returns WHERE 
+                           fun='grains.items' ORDER BY id LIMIT 3""")
+                           #AND 
+                           #id='mbl-spb-228.corp.utsrus.com'""")
             row = cursor.fetchone()
-
-            str_data = ''.join((row))
-            parse_data = json.loads(str_data)
-
-            return_data = parse_data['return']
-            for data in return_data:
-                print(data, return_data[data])
-                if type(return_data[data]) is dict:
-                    for data_dict in return_data[data]:
-                        print(data_dict, return_data[data][data_dict])
-                elif type(return_data[data]) is list:
-                    for data_list in return_data[data]:
-                        print(data_list)
+            parse_invent(row)
+            
     except Error as e:
         print(e)
 
     finally:
         conn.close()
+
+def parse_invent(row):
+    str_data = ''.join((row))
+    parse_data = json.loads(str_data)
+    return_data = parse_data['return']
+    
+    hardware = ['cpu_model', 'num_cpus', 'mem_total', 'biosversion', 
+                'biosreleasedate', 'manufacturer', 'productname', 
+                'serialnumber', 'gpus', 'SSDs']
+    salt_info = ['id', 'nodename', 'saltversion', 'machine_id', 
+                 'kernelrelease', 'lsb_distrib_description']
+    network = ['ip4_interfaces', 'hwaddr_interfaces', 'ipv4', 
+               'domain', 'localhost', 'host', 'fqdn']
+    hw_inv = {}
+    si_inv = {}
+    nw_inv = {}
+    #for data in return_data:
+    #    print(data, return_data[data])
+    #    if type(return_data[data]) is dict:
+    #        for data_dict in return_data[data]:
+    #            print(data_dict, return_data[data][data_dict])
+    #    elif type(return_data[data]) is list:
+    #        for data_list in return_data[data]:
+    #            print(data_list)
+    for hw in hardware:
+		#print(hw, str(return_data[hw]))
+		hw_inv[hw] = str(return_data[hw])
+    print('----------------------------')
+    for si in salt_info:
+		#print(si, str(return_data[si]))
+		si_inv[si] = str(return_data[si])
+    print('----------------------------')
+    for nw in network:
+		#print(nw, str(return_data[nw]))
+		nw_inv[nw] = str(return_data[nw])
+    #print(hw_inv)
+    #print(si_inv)
+    #print(nw_inv)
+    update_inv(si_inv)
+    return
+
+def update_inv(inv):
+    conn = sqlite3.connect('test.sqlite')
+    cursor = conn.cursor()
+    for item in inv.items():
+        print(item[0], item[1])
+    cursor.execute("insert into Artist values (Null, 'A Aagrh!') ")
+    conn.commit()
+    
+    conn.close()
+    return
+
+
+
+
+
 
 if __name__ == '__main__':
     connect()

@@ -1,0 +1,29 @@
+# Hardware
+(u'cpu_model', u'Intel(R) Pentium(R) CPU  N3540  @ 2.16GHz')
+(u'num_cpus', 4)
+(u'mem_total', 3835)
+(u'biosversion', u'CCCN12WW(V1.01)')
+(u'biosreleasedate', u'03/23/2015')
+(u'manufacturer', u'LENOVO')
+(u'productname', u'80MJ')
+(u'serialnumber', u'MP07LTFL')
+(u'gpus', [{u'model': u'Atom Processor Z36xxx/Z37xxx Series Graphics & Display', u'vendor': u'intel'}])
+(u'SSDs', [u'sda'])
+
+# Network
+(u'ip4_interfaces', {u'lo': [u'127.0.0.1'], u'wlan0': [], u'eth0': [u'10.0.2.126']})
+(u'hwaddr_interfaces', {u'lo': u'00:00:00:00:00:00', u'wlan0': u'4c:bb:58:9f:16:28', u'eth0': u'f0:76:1c:b1:26:f7'})
+(u'ipv4', [u'10.0.2.126', u'127.0.0.1'])
+(u'search', [u'corp.utsrus.com'])
+(u'localhost', u'mbl-spb-228')
+(u'host', u'mbl-spb-228')
+(u'fqdn', u'mbl-spb-228.corp.utsrus.com')
+
+# Salt data
+(u'id', u'mbl-spb-228.corp.utsrus.com')
+(u'nodename', u'mbl-spb-228')
+(u'saltversion', u'2017.7.2')
+(u'machine_id', u'539c674df818dba3d1fbbcef56cdd601')
+(u'kernelrelease', u'4.10.0-40-generic')
+(u'lsb_distrib_description', u'Ubuntu 16.04.3 LTS')
+
