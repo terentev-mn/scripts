@@ -17,18 +17,18 @@ def connect():
             cursor.execute("SELECT full_ret FROM salt_returns WHERE fun='grains.items'")
             row = cursor.fetchone()
 
-            s = ''.join((row))
-            obj = json.loads(s)
+            str_data = ''.join((row))
+            parse_data = json.loads(str_data)
 
-            s2 = obj['return']
-            for i in s2:
-                print(i, s2[i])
-                if type(s2[i]) is dict:
-                    for i2 in s2[i]:
-                        print(i2, s2[i][i2])
-                elif type(s2[i]) is list:
-                    for i3 in s2[i]:
-                        print(i3)
+            return_data = parse_data['return']
+            for data in return_data:
+                print(data, return_data[data])
+                if type(return_data[data]) is dict:
+                    for data_dict in return_data[data]:
+                        print(data_dict, return_data[data][data_dict])
+                elif type(return_data[data]) is list:
+                    for data_list in return_data[data]:
+                        print(data_list)
     except Error as e:
         print(e)
 
