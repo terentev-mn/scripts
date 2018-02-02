@@ -26,4 +26,24 @@
 (u'machine_id', u'539c674df818dba3d1fbbcef56cdd601')
 (u'kernelrelease', u'4.10.0-40-generic')
 (u'lsb_distrib_description', u'Ubuntu 16.04.3 LTS')
+#################################################################
+#import datetime
+#import mysql.connector
+#cnx = mysql.connector.connect(user='scott', database='employees')
+#cursor = cnx.cursor()
+#
+#query = ("SELECT first_name, last_name, hire_date FROM employees "
+#         "WHERE hire_date BETWEEN %s AND %s")
+#
+#hire_start = datetime.date(1999, 1, 1)
+#hire_end = datetime.date(1999, 12, 31)
+#
+#cursor.execute(query, (hire_start, hire_end))
+#
+#for (first_name, last_name, hire_date) in cursor:
+#  print("{}, {} was hired on {:%d %b %Y}".format(
+#    last_name, first_name, hire_date))
+#
+#cursor.close()
+#cnx.close()
 
