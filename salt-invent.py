@@ -41,8 +41,9 @@ def parse_invent(row):
     network = ['ip4_interfaces', 'hwaddr_interfaces', 'ipv4', 
                'domain', 'localhost', 'host', 'fqdn']
     hw_inv = {}
-    si_inv = {}
+    si_inv = []
     nw_inv = {}
+    #i = -1
     #for data in return_data:
     #    print(data, return_data[data])
     #    if type(return_data[data]) is dict:
@@ -56,8 +57,11 @@ def parse_invent(row):
 		hw_inv[hw] = str(return_data[hw])
     print('----------------------------')
     for si in salt_info:
-		#print(si, str(return_data[si]))
-		si_inv[si] = str(return_data[si])
+		
+		#print(si, type(return_data[si]))
+		si_inv.append(str(return_data[si]))
+		#i += 1
+		#print(si_inv)
     print('----------------------------')
     for nw in network:
 		#print(nw, str(return_data[nw]))
@@ -71,9 +75,15 @@ def parse_invent(row):
 def update_inv(inv):
     conn = sqlite3.connect('test.sqlite')
     cursor = conn.cursor()
-    for item in inv.items():
-        print(item[0], item[1])
-        cursor.execute("INSERT INTO inventory VALUES (:key, :item)", {"key": item[0], "item": item[1]})
+    #for item in inv.items():
+    #    print(item[0], item[1])
+    #    cursor.execute("INSERT INTO inventory VALUES (:key, :item)", {"key": item[0], "item": item[1]})
+    #params = ['?' for item in inv.items]
+    print(inv)
+    #sql    = 'INSERT INTO inventory (id, nodename, saltversion, machine_id, kernelrelease, lsb_distrib_description) VALUES (%s);' % ','.join(inv.values())
+    #conn.execute(sql, inv)
+    
+    conn.execute('INSERT INTO inventory VALUES (?,?,?,?,?,?)', inv)
     conn.commit()
     
     conn.close()
