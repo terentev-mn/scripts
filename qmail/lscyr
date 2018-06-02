@@ -1,5 +1,0 @@
-#!/bin/bash
-IFS_old=$IFS
-IFS=''
-ls -la `pwd`|sed 's/\&/\+/g' |sed  's/\,/\//g'|iconv -f UTF-7 -t UTF-8
-IFS=$IFS_old

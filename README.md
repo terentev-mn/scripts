@@ -1,3 +1,3 @@
-# bash_scripts
+#scripts
 tools for daily automatization
 !
